@@ -52,6 +52,35 @@ GOOGLE_APPLICATION_CREDENTIALS=path_to_google_credentials.json
 4. Expose your local server using ngrok: `ngrok http 3000`
 5. Configure the WhatsApp Business API webhook to point to your ngrok URL
 
+### Ngrok Setup (Recommended)
+
+For the best user experience, it's recommended to use a premium ngrok account to avoid the interstitial page that appears with free accounts:
+
+1. Sign up for a premium ngrok account at https://dashboard.ngrok.com/billing/subscription
+2. Set up a reserved domain or custom domain in your ngrok dashboard
+3. Update your ngrok configuration:
+
+```bash
+# Add your authtoken
+ngrok config add-authtoken YOUR_AUTH_TOKEN
+
+# Create a configuration file
+cat > ngrok-config.yml << EOL
+version: "2"
+authtoken: YOUR_AUTH_TOKEN
+tunnels:
+  whatsapp-calendar:
+    proto: http
+    addr: 3000
+    domain: YOUR_RESERVED_DOMAIN.ngrok.io
+EOL
+
+# Start ngrok with your custom domain
+ngrok start --config=ngrok-config.yml whatsapp-calendar
+```
+
+4. Update your WhatsApp webhook URL to use your custom domain
+
 ## Usage
 
 Simply send a screenshot of an event invitation to your WhatsApp Business number. The assistant will:
