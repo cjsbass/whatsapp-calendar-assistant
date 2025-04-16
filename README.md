@@ -81,6 +81,53 @@ ngrok start --config=ngrok-config.yml whatsapp-calendar
 
 4. Update your WhatsApp webhook URL to use your custom domain
 
+### WhatsApp Token Management
+
+WhatsApp API tokens from the Meta Developer Console expire after 24 hours. For a production application, you have these options:
+
+#### Option 1: Manual Token Refresh (Easy but requires daily attention)
+
+1. Go to the [Meta Developer Console](https://developers.facebook.com/apps/)
+2. Navigate to your app > WhatsApp > API Setup
+3. Copy the temporary access token
+4. Update your token in the project:
+   ```
+   node update-token.js
+   ```
+
+#### Option 2: System User Token (Recommended for production)
+
+For longer-lasting token management (tokens valid for 60 days):
+
+1. Go to [Meta Business Manager](https://business.facebook.com/settings/system-users)
+2. Create a System User with WhatsApp permissions
+3. Generate a System User Access Token with 60-day expiration
+4. Use the token refresh utility:
+   ```
+   node token-refresh.js
+   ```
+5. Save your System User Token when prompted to enable automatic refreshes
+
+#### Option 3: Automatic Token Refresh (Best for production)
+
+Set up an automated process to refresh tokens before they expire:
+
+1. Add your System User Token to your `.env` file:
+   ```
+   SYSTEM_USER_ACCESS_TOKEN=your_system_user_token
+   ```
+
+2. Set up a scheduled task to refresh the token automatically:
+   ```
+   # Run daily at midnight
+   0 0 * * * cd /path/to/app && node token-refresh.js >> logs/token-refresh.log 2>&1
+   ```
+
+3. Monitor token validity with:
+   ```
+   node token-monitor.js
+   ```
+
 ## Usage
 
 Simply send a screenshot of an event invitation to your WhatsApp Business number. The assistant will:
