@@ -74,7 +74,7 @@ function shortenCalendarLinks(calendarLinks) {
   const shortenedLinks = {};
   
   // Base URL for redirect (should match your deployment URL)
-  const baseUrl = process.env.BASE_URL || 'https://5434-86-137-124-71.ngrok-free.app';
+  const baseUrl = process.env.BASE_URL || 'https://apt-reindeer-quickly.ngrok-free.app';
   
   // Shorten each calendar link
   for (const [service, url] of Object.entries(calendarLinks)) {

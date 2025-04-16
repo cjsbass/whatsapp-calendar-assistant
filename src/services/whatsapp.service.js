@@ -3,9 +3,28 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../config');
 const FormData = require('form-data');
+require('dotenv').config();
 
 // WhatsApp API base URL
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v18.0';
+
+// Directly hardcode token for testing - don't commit this to production!
+const HARDCODED_TOKEN = "EAANVBuOBqFUBO1S1tXQYWuNJZCX5ZAxOPmUWNl4A7m71IJRfuOsMXwRKZA1dtSJ1k3qxtMPp7cb0ZAuMJijqNY2W0IgZB4Iz04CxrZAje51Ei091OGELRZAN3WFdL6qgUMP9isji9rkPELu9nOtmqOHBcFIOegPEwm46uRS86oom0yoZAZChM6QtTLZConLwsikATigRTyM6FRrV1QjdpNSNBQMiiqIwLpVOSAof8eUbvM";
+const WHATSAPP_API_TOKEN = HARDCODED_TOKEN; // Use hardcoded token directly
+const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
+
+// Validate required environment variables
+if (!WHATSAPP_API_TOKEN) {
+  console.error('❌ ERROR: WHATSAPP_API_TOKEN is not defined in environment variables');
+}
+
+if (!WHATSAPP_PHONE_NUMBER_ID) {
+  console.error('❌ ERROR: WHATSAPP_PHONE_NUMBER_ID is not defined in environment variables');
+}
+
+// Log token for debugging (only first few characters)
+console.log(`🔑 Using WhatsApp API token: ${WHATSAPP_API_TOKEN ? WHATSAPP_API_TOKEN.substring(0, 10) + '...' : 'undefined'}`);
+console.log(`📱 Using WhatsApp Phone ID: ${WHATSAPP_PHONE_NUMBER_ID || 'undefined'}`);
 
 /**
  * Format event details for WhatsApp message
@@ -36,7 +55,7 @@ exports.getMediaUrl = async (mediaId) => {
       method: 'GET',
       url: `${WHATSAPP_API_URL}/${mediaId}`,
       headers: {
-        'Authorization': `Bearer ${config.whatsapp.apiToken}`
+        'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`
       }
     });
     
@@ -73,7 +92,7 @@ exports.downloadMedia = async (url) => {
       method: 'GET',
       url: url,
       headers: {
-        'Authorization': `Bearer ${config.whatsapp.apiToken}`
+        'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`
       },
       responseType: 'arraybuffer'
     });
@@ -138,9 +157,9 @@ exports.uploadMedia = async (filePath) => {
       // Upload the file
       const response = await axios({
         method: 'POST',
-        url: `${WHATSAPP_API_URL}/${config.whatsapp.phoneNumberId}/media`,
+        url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/media`,
         headers: {
-          'Authorization': `Bearer ${config.whatsapp.apiToken}`,
+          'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`,
           ...form.getHeaders()
         },
         data: form,
@@ -188,8 +207,8 @@ exports.sendMessageWithAttachment = async (to, message, filePath) => {
     if (!to) throw new Error('Recipient phone number is required');
     if (!message) throw new Error('Message content is required');
     if (!filePath) throw new Error('File path is required');
-    if (!config.whatsapp.phoneNumberId) throw new Error('WhatsApp Phone Number ID not configured');
-    if (!config.whatsapp.apiToken) throw new Error('WhatsApp API Token not configured');
+    if (!WHATSAPP_PHONE_NUMBER_ID) throw new Error('WhatsApp Phone Number ID not configured');
+    if (!WHATSAPP_API_TOKEN) throw new Error('WhatsApp API Token not configured');
     
     // Format phone number (remove + if present)
     const formattedNumber = to.startsWith('+') ? to.substring(1) : to;
@@ -208,9 +227,9 @@ exports.sendMessageWithAttachment = async (to, message, filePath) => {
     const fileName = path.basename(filePath);
     const response = await axios({
       method: 'POST',
-      url: `${WHATSAPP_API_URL}/${config.whatsapp.phoneNumberId}/messages`,
+      url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
       headers: {
-        'Authorization': `Bearer ${config.whatsapp.apiToken}`,
+        'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`,
         'Content-Type': 'application/json'
       },
       data: {
@@ -251,8 +270,8 @@ exports.sendMessage = async (to, message, isEventDetails = false, icalFilePath =
     // Validate inputs
     if (!to) throw new Error('Recipient phone number is required');
     if (!message) throw new Error('Message content is required');
-    if (!config.whatsapp.phoneNumberId) throw new Error('WhatsApp Phone Number ID not configured');
-    if (!config.whatsapp.apiToken) throw new Error('WhatsApp API Token not configured');
+    if (!WHATSAPP_PHONE_NUMBER_ID) throw new Error('WhatsApp Phone Number ID not configured');
+    if (!WHATSAPP_API_TOKEN) throw new Error('WhatsApp API Token not configured');
     
     // Format the message if it's event details
     const messageText = isEventDetails ? formatEventMessage(message) : message;
@@ -267,9 +286,9 @@ exports.sendMessage = async (to, message, isEventDetails = false, icalFilePath =
     
     const response = await axios({
       method: 'POST',
-      url: `${WHATSAPP_API_URL}/${config.whatsapp.phoneNumberId}/messages`,
+      url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
       headers: {
-        'Authorization': `Bearer ${config.whatsapp.apiToken}`,
+        'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`,
         'Content-Type': 'application/json'
       },
       data: {
@@ -322,9 +341,9 @@ exports.sendTextMessage = async (to, text) => {
     
     const response = await axios({
       method: 'POST',
-      url: `${WHATSAPP_API_URL}/${config.whatsapp.phoneNumberId}/messages`,
+      url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
       headers: {
-        Authorization: `Bearer ${config.whatsapp.apiToken}`,
+        Authorization: `Bearer ${WHATSAPP_API_TOKEN}`,
         'Content-Type': 'application/json'
       },
       data: {

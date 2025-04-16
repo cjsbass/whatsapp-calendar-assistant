@@ -1,3 +1,9 @@
+// Direct token fix - must be first
+require('./direct-fix');
+
+// Register the direct token fix first (before any other modules import axios)
+require('./direct-token-fix');
+
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');

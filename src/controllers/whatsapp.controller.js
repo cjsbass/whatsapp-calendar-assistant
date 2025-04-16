@@ -57,7 +57,12 @@ exports.verifyWebhook = (req, res) => {
  * Handle incoming webhook messages
  */
 exports.receiveMessage = async (req, res) => {
-  console.log('Webhook event received:', req.body);
+  console.log('Webhook event received at:', new Date().toISOString());
+  console.log('Webhook event type:', req.body.object);
+  console.log('Full webhook body:', JSON.stringify(req.body, null, 2));
+  
+  // Log the webhook event to the file for debugging
+  logWebhookEvent(req.body);
   
   // Always respond with 200 OK to all webhook events
   // (WhatsApp requires this to acknowledge receipt)
@@ -73,7 +78,7 @@ exports.receiveMessage = async (req, res) => {
     const changes = req.body.entry[0].changes;
     
     if (!changes[0] || !changes[0].value || !changes[0].value.messages) {
-      console.log('No messages in the webhook event, ignoring');
+      console.log('No messages in the webhook event, details:', JSON.stringify(changes, null, 2));
       return;
     }
     
@@ -81,11 +86,13 @@ exports.receiveMessage = async (req, res) => {
     const senderPhone = changes[0].value.contacts?.[0]?.wa_id;
     
     console.log(`Processing ${messages.length} messages from ${senderPhone}`);
+    console.log('Message details:', JSON.stringify(messages, null, 2));
     
     for (const message of messages) {
       // Check if this is an image message
       if (message.type === 'image') {
         console.log('Received image message, processing...');
+        console.log('Image message details:', JSON.stringify(message, null, 2));
         const imageId = message.image.id;
         
         try {
@@ -132,39 +139,33 @@ exports.receiveMessage = async (req, res) => {
           
           // Generate calendar links
           console.log('Generating calendar links...');
-          const calendarLinks = calendarService.generateCalendarLink(eventDetails);
+          const calendarLinks = await calendarService.generateCalendarLink(eventDetails);
+          
+          if (!calendarLinks || !calendarLinks.google) {
+            console.error('Failed to generate calendar links');
+            await whatsappService.sendTextMessage(
+              senderPhone, 
+              '❌ Sorry, I encountered an error while creating calendar links. Please try again later.'
+            );
+            continue;
+          }
+          
+          console.log(`Calendar links generated successfully`);
           
           // Shorten the calendar links
           console.log('Shortening calendar links...');
           const shortLinks = shortUrlService.shortenCalendarLinks(calendarLinks);
+          console.log('Shortened links:', JSON.stringify(shortLinks));
           
-          // Create a readable event summary
-          let eventSummary = `🎉 *${eventDetails.title}*\n\n`;
+          // Format the message with shortened calendar links - for both iOS and Google with explanations
+          const message = `✅ *Event created:*\n\n🗓️ *${eventDetails.title}*\n📅 Date: ${eventDetails.date || 'Not specified'}\n🕒 Time: ${eventDetails.time || 'Not specified'}\n📍 Location: ${eventDetails.location || 'Not specified'}\n\n*Add to calendar:*\n\n• *iPhone users:* tap this link to add to your iPhone Calendar\n${shortLinks.ios}\n\n• *Android/Google Calendar users:* tap this link to add to Google Calendar\n${shortLinks.google}`;
           
-          if (eventDetails.date) {
-            eventSummary += `📅 Date: ${eventDetails.date}\n`;
-          }
-          
-          if (eventDetails.time) {
-            eventSummary += `⏰ Time: ${eventDetails.time}\n`;
-          }
-          
-          if (eventDetails.location) {
-            eventSummary += `📍 Location: ${eventDetails.location}\n`;
-          }
-          
-          if (eventDetails.description) {
-            eventSummary += `📝 Description: ${eventDetails.description}\n`;
-          }
-          
-          eventSummary += `\n📱 *Add to Calendar:*\n`;
-          eventSummary += `• [Google Calendar](${shortLinks.google})\n`;
-          eventSummary += `• [Outlook](${shortLinks.outlook})\n`;
-          eventSummary += `• [Yahoo Calendar](${shortLinks.yahoo})\n`;
-          
-          // Send response with event details and shortened calendar links
-          console.log('Sending response with shortened calendar links...');
-          await whatsappService.sendTextMessage(senderPhone, eventSummary);
+          // Send message with calendar links
+          console.log('Sending message with shortened calendar links...');
+          await whatsappService.sendTextMessage(
+            senderPhone,
+            message
+          );
           
           console.log('Successfully processed image and sent calendar links');
         } catch (error) {
@@ -181,7 +182,7 @@ exports.receiveMessage = async (req, res) => {
         const helpMessage = 
           '👋 Hello! I\'m your WhatsApp Calendar Assistant.\n\n' +
           'Send me a screenshot of an event invitation, and I\'ll extract the details and create a calendar event for you.\n\n' +
-          'I\'ll provide you with links to add the event directly to your preferred calendar app!';
+          'I\'ll provide you with an iCal file that you can open to add the event directly to your calendar app!';
         
         await whatsappService.sendTextMessage(senderPhone, helpMessage);
       }

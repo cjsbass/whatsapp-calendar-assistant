@@ -732,20 +732,34 @@ function generateCalendarLink(eventDetails) {
     const description = encodeURIComponent(fullDescription || '');
     const locationEncoded = encodeURIComponent(location || '');
     
-    // Google Calendar link format
-    const googleCalendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startISO}/${endISO}&details=${description}&location=${locationEncoded}&sf=true&output=xml`;
+    // Mobile-friendly links that open in native apps
     
-    // Outlook.com calendar link format
-    const outlookOnlineLink = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${startDate.toISOString()}&enddt=${endDate.toISOString()}&body=${description}&location=${locationEncoded}`;
-    
-    // Yahoo Calendar link format
+    // iOS Calendar - native iOS calendar app deep link
+    // This uses the calshow:// protocol which opens the native iOS Calendar app
+    const iosCalendarLink = `calshow://?title=${title}&start=${startISO}&end=${endISO}&notes=${description}&location=${locationEncoded}`;
+
+    // Google Calendar - simple direct format that works on all devices 
+    const googleCalendarLink = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${title}&dates=${startISO}/${endISO}&details=${description}&location=${locationEncoded}`;
+
+    // Outlook - mobile friendly link
+    // Uses the deep linking format that works on mobile Outlook app
+    const outlookOnlineLink = `https://outlook.office.com/calendar/action/compose?subject=${title}&startdt=${startDate.toISOString()}&enddt=${endDate.toISOString()}&body=${description}&location=${locationEncoded}`;
+
+    // Apple Calendar - iOS link
+    // Uses the standard calendar link that iOS will open in the calendar app
+    // The webcal:// protocol is no longer widely supported, use https instead
+    const appleCalendarLink = `https://calendar.google.com/calendar/ical/${title.replace(/\s+/g, '+')}/${startISO}/${endISO}.ics?ctz=local&action=TEMPLATE&dates=${startISO}/${endISO}&text=${title}&details=${description}&location=${locationEncoded}`;
+
+    // Yahoo Calendar - mobile optimized
     const yahooCalendarLink = `https://calendar.yahoo.com/?title=${title}&st=${startISO}&et=${endISO}&desc=${description}&in_loc=${locationEncoded}`;
     
     console.log('Google Calendar Link:', googleCalendarLink.substring(0, 100) + '...');
     
     return {
       google: googleCalendarLink,
+      ios: iosCalendarLink,
       outlook: outlookOnlineLink,
+      apple: appleCalendarLink,
       yahoo: yahooCalendarLink,
       all: googleCalendarLink // Default to Google Calendar
     };
