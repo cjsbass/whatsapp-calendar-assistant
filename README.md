@@ -2,10 +2,11 @@
 
 A WhatsApp bot that extracts event details from screenshots or images of invitations and creates calendar events with clickable links, allowing users to easily add events to their calendars.
 
-## ✅ Status: FULLY OPERATIONAL
+## ✅ Status: FULLY OPERATIONAL - DEPLOYED TO PRODUCTION
 
 **Last Updated:** June 13, 2025  
 **System Status:** 🟢 Live and Working  
+**Production URL:** https://whatsapp-calendar-assistant-kx6k5kjir.vercel.app  
 **WhatsApp Number:** +1 (380) 205-9479  
 **Quick Link:** https://wa.me/13802059479
 
