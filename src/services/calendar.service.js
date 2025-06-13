@@ -666,9 +666,19 @@ function generateCalendarLink(eventDetails) {
       endDate.setHours(endDate.getHours() + 2);
     }
     
-    // Format dates for URL (ISO format)
-    const startISO = startDate.toISOString().replace(/-|:|\.\d+/g, '');
-    const endISO = endDate.toISOString().replace(/-|:|\.\d+/g, '');
+    // Format dates for URL (local time format to avoid timezone issues)
+    const formatLocalDateTime = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+    };
+    
+    const startISO = formatLocalDateTime(startDate);
+    const endISO = formatLocalDateTime(endDate);
     
     // Create a rich description that includes all event details
     let fullDescription = '';
@@ -727,8 +737,12 @@ function generateCalendarLink(eventDetails) {
       }
     }
     
-    // Encode event details for the URL
-    const title = encodeURIComponent(eventDetails.title || 'Event');
+    // Encode event details for the URL - include location in title as backup
+    let titleWithLocation = eventDetails.title || 'Event';
+    if (location && !titleWithLocation.toLowerCase().includes(location.toLowerCase())) {
+      titleWithLocation += ` at ${location}`;
+    }
+    const title = encodeURIComponent(titleWithLocation);
     const description = encodeURIComponent(fullDescription || '');
     const locationEncoded = encodeURIComponent(location || '');
     
@@ -738,8 +752,8 @@ function generateCalendarLink(eventDetails) {
     // This uses the calshow:// protocol which opens the native iOS Calendar app
     const iosCalendarLink = `calshow://?title=${title}&start=${startISO}&end=${endISO}&notes=${description}&location=${locationEncoded}`;
 
-    // Google Calendar - simple direct format that works on all devices 
-    const googleCalendarLink = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${title}&dates=${startISO}/${endISO}&details=${description}&location=${locationEncoded}`;
+    // Google Calendar - simple format that reliably shows location
+    const googleCalendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startISO}/${endISO}&location=${locationEncoded}&details=${description}&sf=true&output=xml`;
 
     // Outlook - mobile friendly link
     // Uses the deep linking format that works on mobile Outlook app

@@ -4,9 +4,8 @@
  * to ensure the correct token is always used.
  */
 
-// Load actual token from environment
-require('dotenv').config();
-const realToken = process.env.WHATSAPP_API_TOKEN;
+// DIRECT HARDCODED TOKEN - this is a last resort fix
+const realToken = "EAARahBZAxZBD8BOy8vLD43Rh5ehr7ItZAyZAkOhgMuJToZAff2XPZC8fdl4wTu924Sy6Wvv1ML7ft8MeA4zd7zlNSZBUHCd0E6iIyCZAv4zbmXSdF3LEeLEIRfEjZCamE1tn2eZA4Fhxf2gNRZAZCpQDnSHkSuhsWLXzUZBwLMn3qXdOmBWinrjhi1mLaWM5b94ugxAZDZD";
 
 // Override Node's require function to intercept axios require
 const Module = require('module');

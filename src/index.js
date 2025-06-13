@@ -2,7 +2,7 @@
 require('./direct-fix');
 
 // Register the direct token fix first (before any other modules import axios)
-require('./direct-token-fix');
+// require('./direct-token-fix'); // Removed erroneous line
 
 require('dotenv').config();
 const express = require('express');

@@ -8,18 +8,23 @@ require('dotenv').config();
 // WhatsApp API base URL
 const WHATSAPP_API_URL = 'https://graph.facebook.com/v18.0';
 
-// Directly hardcode token for testing - don't commit this to production!
-const HARDCODED_TOKEN = "EAANVBuOBqFUBO1S1tXQYWuNJZCX5ZAxOPmUWNl4A7m71IJRfuOsMXwRKZA1dtSJ1k3qxtMPp7cb0ZAuMJijqNY2W0IgZB4Iz04CxrZAje51Ei091OGELRZAN3WFdL6qgUMP9isji9rkPELu9nOtmqOHBcFIOegPEwm46uRS86oom0yoZAZChM6QtTLZConLwsikATigRTyM6FRrV1QjdpNSNBQMiiqIwLpVOSAof8eUbvM";
-const WHATSAPP_API_TOKEN = HARDCODED_TOKEN; // Use hardcoded token directly
+// Get token from environment variables
+// REMOVE HARDCODED TOKEN - security risk!
+const WHATSAPP_API_TOKEN = process.env.WHATSAPP_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
+const WHATSAPP_BUSINESS_ACCOUNT_ID = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID;
 
 // Validate required environment variables
 if (!WHATSAPP_API_TOKEN) {
-  console.error('❌ ERROR: WHATSAPP_API_TOKEN is not defined in environment variables');
+  console.error('❌ ERROR: WHATSAPP_TOKEN is not defined in environment variables');
 }
 
 if (!WHATSAPP_PHONE_NUMBER_ID) {
   console.error('❌ ERROR: WHATSAPP_PHONE_NUMBER_ID is not defined in environment variables');
+}
+
+if (!WHATSAPP_BUSINESS_ACCOUNT_ID) {
+  console.error('❌ ERROR: WHATSAPP_BUSINESS_ACCOUNT_ID is not defined in environment variables');
 }
 
 // Log token for debugging (only first few characters)

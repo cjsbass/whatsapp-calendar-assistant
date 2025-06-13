@@ -1,0 +1,20 @@
+# Server Config
+PORT=3000
+
+# WhatsApp Business API
+# Replace this with your actual token from the Facebook Developer Portal
+WHATSAPP_API_TOKEN=PASTE_YOUR_NEW_VALID_TOKEN_HERE
+WHATSAPP_PHONE_NUMBER_ID=589307174261749
+WHATSAPP_VERIFY_TOKEN=d06bfb2ab638cd9c34ba1e9f2f11e66a
+
+# Google Cloud credentials
+GOOGLE_APPLICATION_CREDENTIALS=credentials/google-credentials.json
+
+# URL configuration
+BASE_URL=https://apt-reindeer-quickly.ngrok-free.app
+
+# Other Configuration
+NODE_ENV=development
+
+# App Secret for token generation
+APP_SECRET=424d04665932011529ae67b9cf6d8bac 

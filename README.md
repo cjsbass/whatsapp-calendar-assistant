@@ -73,10 +73,30 @@ NODE_ENV=development
 
 ## Usage
 
-1. Connect your WhatsApp Business account to the webhook
-2. Send a screenshot of an event invitation to your WhatsApp number
-3. The bot will extract event details and send back clickable calendar links
-4. Tap the calendar link that corresponds to your preferred calendar app
+### How to Use the WhatsApp Calendar Assistant
+
+**WhatsApp Number:** +1 (380) 205-9479  
+**Quick Link:** https://wa.me/13802059479  
+**Status:** ✅ **LIVE & OPERATIONAL**
+
+1. **Send a Message**: Click the wa.me link above or add +13802059479 to your WhatsApp contacts
+2. **Send an Image**: Take a screenshot or photo of any event invitation (wedding invites, conference tickets, party invitations, etc.)
+3. **Get Calendar Links**: The bot will automatically extract event details and send you clickable calendar links
+4. **Add to Calendar**: Tap the calendar link that corresponds to your preferred calendar app (iPhone Calendar, Google Calendar, Outlook)
+
+### What the Bot Can Extract:
+- 📝 Event title and description
+- 📅 Date and time information  
+- 📍 Location details
+- ⏱️ Duration
+- 🎫 Event type recognition
+
+### Supported Calendar Formats:
+- 📱 iPhone Calendar (native app integration)
+- 📊 Google Calendar (mobile & desktop optimized)
+- 📧 Outlook Calendar
+- 📋 Yahoo Calendar
+- 📄 .ics file download
 
 ## Webhook Configuration
 

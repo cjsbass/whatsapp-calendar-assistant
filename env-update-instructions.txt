@@ -1,0 +1,16 @@
+# WhatsApp Calendar - Environment Update Instructions
+
+1. Make sure your .env file exists (if not, copy from the template):
+   cp env-template.txt .env
+
+2. Update your .env file with the new token:
+   Open .env in a text editor and replace the WHATSAPP_TOKEN line with:
+
+   WHATSAPP_TOKEN=EAARahBZAxZBD8BO2abz44WOPmJXrRfG3oYL3FQF4HJjSU071FhgpOqYmELXXUHGZAUbNB2e2fDhJia8SiT3PWenwpQo1VdnUXFAZAEMaZBaO4luoIlfGXoL8rViygSQdmn2JRm6fXKqGOAZBcZCbZC0helO9YMwZBPxmqgZCqRGtutXDuLCLorpHImCzVQPLE8wgZDZD
+
+3. Make sure the variable name is WHATSAPP_TOKEN (not WHATSAPP_API_TOKEN)
+
+4. Save the file and restart your server
+
+Note: The token fix has been applied to the code which should now properly use 
+the WHATSAPP_TOKEN environment variable. 

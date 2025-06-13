@@ -141,33 +141,27 @@ exports.receiveMessage = async (req, res) => {
           console.log('Generating calendar links...');
           const calendarLinks = await calendarService.generateCalendarLink(eventDetails);
           
+          // Check if the Google link was generated
           if (!calendarLinks || !calendarLinks.google) {
-            console.error('Failed to generate calendar links');
+            console.error('Failed to generate Google calendar link');
             await whatsappService.sendTextMessage(
               senderPhone, 
-              '❌ Sorry, I encountered an error while creating calendar links. Please try again later.'
+              '❌ Sorry, I encountered an error while creating the Google Calendar link. Please try again later.'
             );
-            continue;
+            continue; // Skip to the next message
           }
           
-          console.log(`Calendar links generated successfully`);
-          
-          // Shorten the calendar links
-          console.log('Shortening calendar links...');
-          const shortLinks = shortUrlService.shortenCalendarLinks(calendarLinks);
-          console.log('Shortened links:', JSON.stringify(shortLinks));
-          
-          // Format the message with shortened calendar links - for both iOS and Google with explanations
-          const message = `✅ *Event created:*\n\n🗓️ *${eventDetails.title}*\n📅 Date: ${eventDetails.date || 'Not specified'}\n🕒 Time: ${eventDetails.time || 'Not specified'}\n📍 Location: ${eventDetails.location || 'Not specified'}\n\n*Add to calendar:*\n\n• *iPhone users:* tap this link to add to your iPhone Calendar\n${shortLinks.ios}\n\n• *Android/Google Calendar users:* tap this link to add to Google Calendar\n${shortLinks.google}`;
-          
-          // Send message with calendar links
-          console.log('Sending message with shortened calendar links...');
+          console.log(`Google Calendar link generated successfully: ${calendarLinks.google}`);
+
+          // Send only the direct Google Calendar link
+          const googleLink = calendarLinks.google;
+          console.log('Sending direct Google Calendar link...');
           await whatsappService.sendTextMessage(
             senderPhone,
-            message
+            googleLink // Send the raw link
           );
           
-          console.log('Successfully processed image and sent calendar links');
+          console.log('Successfully processed image and sent direct Google Calendar link');
         } catch (error) {
           console.error('Error processing image message:', error);
           await whatsappService.sendTextMessage(

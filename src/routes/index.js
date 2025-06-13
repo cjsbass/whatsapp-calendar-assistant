@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const whatsappRoutes = require('./whatsapp.routes');
+const twilioRoutes = require('./twilio.routes');
 const shortUrlService = require('../services/shorturl.service');
 
-// WhatsApp webhook routes
+// WhatsApp webhook routes (legacy Meta API)
 router.use('/api/webhook', whatsappRoutes);
+
+// Twilio WhatsApp webhook routes
+router.use('/api/twilio', twilioRoutes);
 
 // URL Shortener redirect route
 router.get('/r/:shortId', (req, res) => {
@@ -29,7 +33,7 @@ router.get('/r/:shortId', (req, res) => {
 
 // Home route
 router.get('/', (req, res) => {
-  res.send('WhatsApp Calendar Assistant is running!');
+  res.send('WhatsApp Calendar Assistant is running! (Now using Twilio for WhatsApp integration)');
 });
 
 module.exports = router; 
