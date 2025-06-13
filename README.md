@@ -1,170 +1,185 @@
 # WhatsApp Calendar Assistant
 
-A WhatsApp bot that extracts event details from screenshots or images of invitations and creates calendar events with clickable links, allowing users to easily add events to their calendars.
+A WhatsApp bot that processes event invitation images and generates calendar links using Twilio, Google Cloud Vision API, and Vercel serverless deployment.
 
-## ✅ Status: FULLY OPERATIONAL - DEPLOYED TO PRODUCTION
+## 🚀 Current Status
 
-**Last Updated:** June 13, 2025  
-**System Status:** 🟢 Live and Working  
-**Production URL:** https://whatsapp-calendar-assistant-kx6k5kjir.vercel.app  
-**WhatsApp Number:** +1 (380) 205-9479  
-**Quick Link:** https://wa.me/13802059479
+✅ **WORKING** - WhatsApp messaging via Twilio  
+✅ **DEPLOYED** - Live on Vercel serverless platform  
+✅ **RESPONDING** - Text message handling functional  
+🔧 **IN PROGRESS** - Image processing being restored  
 
-## Features
+**Live Webhook**: `https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app/api/webhook`  
+**WhatsApp Number**: `+1 (380) 205-9479`
 
-- 📱 **WhatsApp Integration**: Receive images and send calendar links through WhatsApp
-- 🖼️ **Image Processing**: Extract text from images using Google Cloud Vision API
-- 📅 **Event Detail Extraction**: Intelligent parsing of dates, times, locations, and event titles
-- 📆 **Calendar Integration**: Generate calendar links for multiple platforms
-  - iPhone Calendar (using `calshow://` protocol)
-  - Google Calendar (optimized for both mobile and desktop)
-  - Outlook
-  - Yahoo Calendar
-- 🔗 **URL Shortening**: Create short, manageable URLs for all calendar links
-- 🌐 **Webhook Support**: Integrate with the WhatsApp Business API
+## 📱 Features
 
-## Recent Updates
+### Current Features (Working)
+- ✅ Receive WhatsApp messages via Twilio
+- ✅ Send automated responses 
+- ✅ Help and welcome messages
+- ✅ Error handling and logging
 
-### System Restoration (June 2025)
-- ✅ **Dependencies**: Restored all Node.js packages via package.json
-- ✅ **Twilio Integration**: Fixed credentials and phone number alignment
-- ✅ **Google Cloud Vision**: Set up proper API credentials and service account
-- ✅ **Environment Configuration**: All variables properly configured
-- ✅ **Error Handling**: Removed graceful degradation for proper error reporting
-- ✅ **Token Management**: Direct token interception working correctly
+### Upcoming Features (Being Restored)
+- 🔧 Process event invitation images with Google Cloud Vision
+- 🔧 Extract event details (title, date, time, location)
+- 🔧 Generate Google Calendar links
+- 🔧 Support for multiple calendar formats
 
-### Calendar Link Optimization (April 2025)
-- Enhanced Google Calendar links to better open in mobile apps
-- Added direct iPhone Calendar support via `calshow://` protocol
-- Improved link formatting in WhatsApp messages
-- Optimized URL formats for all calendar types
+## 🛠 Technology Stack
 
-### General Enhancements
-- Improved error handling and logging
-- Better date/time parsing for various invitation formats
-- Clearer user instructions in messages
+- **Backend**: Node.js + Express
+- **WhatsApp API**: Twilio WhatsApp Business API
+- **Image Processing**: Google Cloud Vision API (being restored)
+- **Deployment**: Vercel Serverless Functions
+- **Environment**: Production-ready cloud deployment
 
-## Setup
+## 📋 Environment Variables
 
-### Prerequisites
+Required environment variables (all configured in Vercel):
 
-- Node.js (v16+)
-- WhatsApp Business API account  
-- Twilio Account (for WhatsApp integration)
-- Google Cloud Vision API credentials
-- ngrok or similar for exposing localhost (during development)
-
-### Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd whatsapp-calendar-assistant
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**
-   - Copy `.env.backup` to `.env`
-   - Update with your actual credentials (see below)
-
-4. **Start the server**
-   ```bash
-   npm start
-   ```
-
-### Environment Variables
-
-Your `.env` file should contain:
-
-```env
-# Server Config
-PORT=3000
-NODE_ENV=development
-BASE_URL=your_ngrok_url
-
-# WhatsApp Business API
-WHATSAPP_TOKEN=your_whatsapp_api_token
-WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
-WHATSAPP_VERIFY_TOKEN=your_webhook_verify_token
-WHATSAPP_BUSINESS_ACCOUNT_ID=your_business_account_id
-WHATSAPP_PHONE_NUMBER=13802059479
-
-# Twilio API
+```bash
+# Twilio WhatsApp API
 TWILIO_ACCOUNT_SID=your_twilio_account_sid
 TWILIO_AUTH_TOKEN=your_twilio_auth_token
 TWILIO_PHONE_NUMBER=whatsapp:+13802059479
 
 # Google Cloud Vision API
-GOOGLE_APPLICATION_CREDENTIALS=google-cloud-credentials/google-credentials.json
+GOOGLE_CLOUD_PROJECT_ID=whatsapp-calendar-service-001
+GOOGLE_CLOUD_CLIENT_EMAIL=your_service_account_email
+GOOGLE_CLOUD_PRIVATE_KEY=your_private_key_with_newlines
+
+# Deployment
+NODE_ENV=production
 ```
 
-### Google Cloud Setup
+## 🚀 Deployment
 
-To set up Google Cloud Vision API credentials:
+The application is deployed on Vercel with the following configuration:
 
+### Current Deployment
+- **URL**: https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app
+- **Status**: ✅ Active and responding
+- **Environment**: Production
+- **Region**: Washington, D.C., USA (East)
+
+### Twilio Configuration
+- **Webhook URL**: `https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app/api/webhook`
+- **Method**: HTTP POST
+- **Phone Number**: +1 (380) 205-9479
+- **Service**: WhatsApp Business API
+
+## 💬 Usage
+
+### Text Messages
+Send any text message to `+1 (380) 205-9479`:
+- **"test"**, **"hello"**, **"hi"** → Get help message
+- **Any other text** → Echo response confirming receipt
+
+### Image Messages (Coming Soon)
+- Send event invitation screenshots
+- Receive extracted event details
+- Get Google Calendar links
+
+## 🔧 Development
+
+### Local Development
 ```bash
-# Set your project
-gcloud config set project your-project-id
+# Install dependencies
+npm install
 
-# Enable Vision API
-gcloud services enable vision.googleapis.com
+# Set up environment variables
+cp .env.example .env
 
-# Create service account
-gcloud iam service-accounts create whatsapp-calendar-bot \
-  --display-name="WhatsApp Calendar Assistant"
-
-# Grant permissions
-gcloud projects add-iam-policy-binding your-project-id \
-  --member="serviceAccount:whatsapp-calendar-bot@your-project-id.iam.gserviceaccount.com" \
-  --role="roles/ml.developer"
-
-# Generate credentials
-gcloud iam service-accounts keys create google-cloud-credentials/google-credentials.json \
-  --iam-account=whatsapp-calendar-bot@your-project-id.iam.gserviceaccount.com
+# Run locally
+npm start
 ```
 
-## Usage
+### Deploy to Vercel
+```bash
+# Deploy to production
+vercel --prod
 
-### How to Use the WhatsApp Calendar Assistant
+# Update environment variables
+vercel env add VARIABLE_NAME production
+```
 
-**WhatsApp Number:** +1 (380) 205-9479  
-**Quick Link:** https://wa.me/13802059479  
-**Status:** ✅ **LIVE & OPERATIONAL**
+## 📁 Project Structure
 
-1. **Send a Message**: Click the wa.me link above or add +13802059479 to your WhatsApp contacts
-2. **Send an Image**: Take a screenshot or photo of any event invitation (wedding invites, conference tickets, party invitations, etc.)
-3. **Get Calendar Links**: The bot will automatically extract event details and send you clickable calendar links
-4. **Add to Calendar**: Tap the calendar link that corresponds to your preferred calendar app (iPhone Calendar, Google Calendar, Outlook)
+```
+src/
+├── index.js                 # Main application (simplified for serverless)
+├── services/
+│   ├── vision.service.js    # Google Cloud Vision integration
+│   ├── calendar.service.js  # Calendar link generation
+│   └── twilio.service.js    # Twilio WhatsApp service
+└── routes/
+    ├── index.js             # Main routes
+    ├── whatsapp.routes.js   # WhatsApp webhook routes
+    └── twilio.routes.js     # Twilio webhook routes
 
-### What the Bot Can Extract:
-- 📝 Event title and description
-- 📅 Date and time information  
-- 📍 Location details
-- ⏱️ Duration
-- 🎫 Event type recognition
+vercel.json                  # Vercel deployment configuration
+package.json                 # Dependencies and scripts
+```
 
-### Supported Calendar Formats:
-- 📱 iPhone Calendar (native app integration)
-- 📊 Google Calendar (mobile & desktop optimized)
-- 📧 Outlook Calendar
-- 📋 Yahoo Calendar
-- 📄 .ics file download
+## 🐛 Troubleshooting
 
-## Webhook Configuration
+### Common Issues
 
-See the `WHATSAPP-WEBHOOK-SETUP.md` file for detailed instructions on setting up the webhook with Meta's WhatsApp Business API.
+1. **No response to WhatsApp messages**
+   - Check Twilio webhook URL is correct
+   - Verify environment variables in Vercel
+   - Check Vercel function logs
 
-## Adding to Your Calendar
+2. **Function deployment errors**
+   - Ensure no file system operations in serverless code
+   - Check Google Cloud credentials format
+   - Verify all dependencies are in package.json
 
-The assistant provides links for different calendar types:
+3. **Google Cloud Vision errors**
+   - Ensure private key newlines are properly escaped
+   - Verify service account permissions
+   - Check project ID matches
 
-- **iPhone users**: Tap the iPhone Calendar link to open directly in your native Calendar app
-- **Android/Google Calendar users**: Tap the Google Calendar link to add to Google Calendar
+### Monitoring
+- **Logs**: https://vercel.com/cornellbasson-gmailcoms-projects/whatsapp-calendar-assistant/logs
+- **Status**: Check webhook endpoint health at `/api/webhook`
+- **Testing**: Send test messages to verify functionality
 
-## License
+## 🔒 Security
 
-MIT 
+- All sensitive credentials stored as Vercel environment variables
+- HTTPS-only webhook endpoints
+- No local file storage in serverless environment
+- Twilio webhook signature verification (can be added)
+
+## 📈 Next Steps
+
+1. **Restore Image Processing**
+   - Fix Google Cloud Vision API serverless compatibility
+   - Add back event detail extraction
+   - Restore calendar link generation
+
+2. **Enhanced Features**
+   - Support for multiple languages
+   - Advanced date/time parsing
+   - Multiple calendar format support (Outlook, Apple Calendar)
+   - Event reminder setup
+
+3. **Production Improvements**
+   - Add webhook signature verification
+   - Implement rate limiting
+   - Add comprehensive error tracking
+   - Performance monitoring
+
+## 📞 Support
+
+- **Developer**: Available for debugging and enhancements
+- **Logs**: Monitor via Vercel dashboard
+- **Issues**: Test webhook endpoint and check environment variables
+
+---
+
+**Status**: ✅ Core messaging functional | 🔧 Image processing being restored  
+**Last Updated**: June 13, 2025  
+**Version**: 2.0 (Serverless) 
