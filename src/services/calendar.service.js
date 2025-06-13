@@ -256,11 +256,10 @@ const createIcalFile = (eventDetails, eventDate) => {
         return;
       }
       
-      // Write to file
-      fs.writeFileSync(filePath, value);
-      console.log(`ICS file created at ${filePath}`);
+      // Return the ICS content instead of writing to file (serverless-friendly)
+      console.log(`ICS file content generated (${value.length} characters)`);
       
-      resolve(filePath);
+      resolve({ content: value, filename: path.basename(filePath) });
     });
   });
 };
@@ -280,8 +279,8 @@ exports.createEvent = async (eventDetails) => {
     
     console.log('Parsed date:', eventDate);
     
-    // Create an iCal file
-    const icalFilePath = await createIcalFile(eventDetails, eventDate);
+    // Create an iCal file content
+    const icalData = await createIcalFile(eventDetails, eventDate);
     
     // Create event object
     const event = {
@@ -292,7 +291,8 @@ exports.createEvent = async (eventDetails) => {
       location: eventDetails.location,
       timestamp: eventDate ? eventDate.toISOString() : null,
       createdAt: new Date().toISOString(),
-      icalFile: icalFilePath
+      icalContent: icalData.content,
+      icalFilename: icalData.filename
     };
     
     // In a real application, you would save this to a database

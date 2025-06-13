@@ -145,48 +145,34 @@ exports.uploadMedia = async (filePath) => {
     
     console.log(`Uploading file ${fileName} (${fileStats.size} bytes, ${mimeType})`);
     
-    // Create a temporary file for the form-data to read from
-    const tempFile = path.join(path.dirname(filePath), `temp-${fileName}`);
-    fs.writeFileSync(tempFile, fileData);
+    // Create form data directly from buffer (serverless-friendly)
+    const form = new FormData();
+    form.append('file', fileData, {
+      filename: fileName,
+      contentType: mimeType
+    });
+    form.append('messaging_product', 'whatsapp');
+    form.append('type', mimeType);
     
-    try {
-      // Create form data
-      const form = new FormData();
-      form.append('file', fs.createReadStream(tempFile), {
-        filename: fileName,
-        contentType: mimeType
-      });
-      form.append('messaging_product', 'whatsapp');
-      form.append('type', mimeType);
-      
-      // Upload the file
-      const response = await axios({
-        method: 'POST',
-        url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/media`,
-        headers: {
-          'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`,
-          ...form.getHeaders()
-        },
-        data: form,
-        maxContentLength: Infinity,
-        maxBodyLength: Infinity
-      });
-      
-      // Clean up temporary file
-      fs.unlinkSync(tempFile);
-      
-      if (!response.data || !response.data.id) {
-        throw new Error('Invalid media upload response: No ID found');
-      }
-      
-      console.log('Media uploaded successfully, ID:', response.data.id);
-      return response.data.id;
-    } finally {
-      // Make sure to clean up the temp file even if there's an error
-      if (fs.existsSync(tempFile)) {
-        fs.unlinkSync(tempFile);
-      }
+    // Upload the file
+    const response = await axios({
+      method: 'POST',
+      url: `${WHATSAPP_API_URL}/${WHATSAPP_PHONE_NUMBER_ID}/media`,
+      headers: {
+        'Authorization': `Bearer ${WHATSAPP_API_TOKEN}`,
+        ...form.getHeaders()
+      },
+      data: form,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity
+    });
+    
+    if (!response.data || !response.data.id) {
+      throw new Error('Invalid media upload response: No ID found');
     }
+    
+    console.log('Media uploaded successfully, ID:', response.data.id);
+    return response.data.id;
   } catch (error) {
     console.error('Error uploading media:', error.message);
     if (error.response) {

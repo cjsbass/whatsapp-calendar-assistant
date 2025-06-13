@@ -3,11 +3,27 @@ const path = require('path');
 const fs = require('fs');
 
 // Initialize the Google Cloud Vision client
-const client = new vision.ImageAnnotatorClient({
-  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS || path.join(__dirname, '../../google-credentials.json'),
-});
+// For serverless deployment, use environment variables instead of JSON file
+let client;
 
-console.log('Google Cloud Vision API initialized');
+if (process.env.GOOGLE_CLOUD_PRIVATE_KEY && process.env.GOOGLE_CLOUD_CLIENT_EMAIL) {
+  // Use environment variables (recommended for serverless)
+  client = new vision.ImageAnnotatorClient({
+    credentials: {
+      private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+    },
+    projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+  });
+  console.log('Google Cloud Vision API initialized with environment variables');
+} else {
+  // Fallback to JSON file for local development
+  const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || path.join(__dirname, '../../google-cloud-credentials/google-credentials.json');
+  client = new vision.ImageAnnotatorClient({
+    keyFilename: credentialsPath,
+  });
+  console.log('Google Cloud Vision API initialized with JSON file');
+}
 
 /**
  * Extract event details from an image using Google Cloud Vision API

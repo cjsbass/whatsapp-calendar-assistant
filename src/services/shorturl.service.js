@@ -2,32 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-// Directory to store URL mappings
-const urlsDir = path.join(__dirname, '../../url-mappings');
-if (!fs.existsSync(urlsDir)) {
-  fs.mkdirSync(urlsDir, { recursive: true });
-}
-
-// File to store URL mappings
-const urlMappingsFile = path.join(urlsDir, 'url-mappings.json');
-
-// Initialize or load URL mappings
+// In-memory URL mappings (serverless-friendly)
+// For production, this could be replaced with a database
 let urlMappings = {};
-if (fs.existsSync(urlMappingsFile)) {
-  try {
-    const data = fs.readFileSync(urlMappingsFile, 'utf8');
-    urlMappings = JSON.parse(data);
-    console.log(`Loaded ${Object.keys(urlMappings).length} URL mappings from file`);
-  } catch (error) {
-    console.error('Error loading URL mappings:', error);
-    // Initialize with empty object if there's an error
-    urlMappings = {};
-  }
-} else {
-  // Create empty mapping file
-  fs.writeFileSync(urlMappingsFile, JSON.stringify({}), 'utf8');
-  console.log('Created new URL mappings file');
-}
+console.log('Initialized in-memory URL mappings for serverless environment');
 
 /**
  * Generate a short URL for a long URL
@@ -46,11 +24,8 @@ function generateShortUrl(longUrl) {
   // Generate a short unique ID (6 characters should be enough for our use case)
   const shortId = crypto.randomBytes(3).toString('hex');
   
-  // Store the mapping
+  // Store the mapping in memory
   urlMappings[shortId] = longUrl;
-  
-  // Save to file
-  fs.writeFileSync(urlMappingsFile, JSON.stringify(urlMappings, null, 2), 'utf8');
   
   console.log(`Created short URL ${shortId} for ${longUrl.substring(0, 50)}...`);
   return shortId;

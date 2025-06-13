@@ -6,23 +6,10 @@ const calendarService = require('../services/calendar.service');
 const visionService = require('../services/vision.service');
 const shortUrlService = require('../services/shorturl.service');
 
-// Create logs directory if it doesn't exist
-const logsDir = path.join(__dirname, '../../logs');
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
-}
-
-// Log file path
-const logFile = path.join(logsDir, 'webhook-events.log');
-
-// Helper function to log webhook events
+// Helper function to log webhook events (serverless-friendly)
 const logWebhookEvent = (event) => {
   const timestamp = new Date().toISOString();
-  const logEntry = `${timestamp}: ${JSON.stringify(event, null, 2)}\n\n`;
-  
-  fs.appendFileSync(logFile, logEntry);
-  console.log(`Webhook event logged to ${logFile}`);
-  console.log(logEntry);
+  console.log(`WhatsApp webhook event - ${timestamp}:`, JSON.stringify(event, null, 2));
 };
 
 /**
