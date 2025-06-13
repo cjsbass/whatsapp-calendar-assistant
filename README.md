@@ -2,6 +2,13 @@
 
 A WhatsApp bot that extracts event details from screenshots or images of invitations and creates calendar events with clickable links, allowing users to easily add events to their calendars.
 
+## ✅ Status: FULLY OPERATIONAL
+
+**Last Updated:** June 13, 2025  
+**System Status:** 🟢 Live and Working  
+**WhatsApp Number:** +1 (380) 205-9479  
+**Quick Link:** https://wa.me/13802059479
+
 ## Features
 
 - 📱 **WhatsApp Integration**: Receive images and send calendar links through WhatsApp
@@ -15,12 +22,15 @@ A WhatsApp bot that extracts event details from screenshots or images of invitat
 - 🔗 **URL Shortening**: Create short, manageable URLs for all calendar links
 - 🌐 **Webhook Support**: Integrate with the WhatsApp Business API
 
-## Recent Improvements
+## Recent Updates
 
-### Token Management (April 2025)
-- Fixed issues with token handling in the WhatsApp API
-- Implemented direct token interception for all Facebook Graph API calls
-- Added module-level patching to ensure correct token usage
+### System Restoration (June 2025)
+- ✅ **Dependencies**: Restored all Node.js packages via package.json
+- ✅ **Twilio Integration**: Fixed credentials and phone number alignment
+- ✅ **Google Cloud Vision**: Set up proper API credentials and service account
+- ✅ **Environment Configuration**: All variables properly configured
+- ✅ **Error Handling**: Removed graceful degradation for proper error reporting
+- ✅ **Token Management**: Direct token interception working correctly
 
 ### Calendar Link Optimization (April 2025)
 - Enhanced Google Calendar links to better open in mobile apps
@@ -38,38 +48,83 @@ A WhatsApp bot that extracts event details from screenshots or images of invitat
 ### Prerequisites
 
 - Node.js (v16+)
-- WhatsApp Business API account
+- WhatsApp Business API account  
+- Twilio Account (for WhatsApp integration)
 - Google Cloud Vision API credentials
 - ngrok or similar for exposing localhost (during development)
 
+### Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd whatsapp-calendar-assistant
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+   - Copy `.env.backup` to `.env`
+   - Update with your actual credentials (see below)
+
+4. **Start the server**
+   ```bash
+   npm start
+   ```
+
 ### Environment Variables
 
-Create a `.env` file with the following:
+Your `.env` file should contain:
 
-```
+```env
 # Server Config
 PORT=3000
+NODE_ENV=development
+BASE_URL=your_ngrok_url
 
 # WhatsApp Business API
-WHATSAPP_API_TOKEN=your_whatsapp_api_token
+WHATSAPP_TOKEN=your_whatsapp_api_token
 WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
 WHATSAPP_VERIFY_TOKEN=your_webhook_verify_token
+WHATSAPP_BUSINESS_ACCOUNT_ID=your_business_account_id
+WHATSAPP_PHONE_NUMBER=13802059479
 
-# Google Cloud credentials
-GOOGLE_APPLICATION_CREDENTIALS=path_to_credentials_file
+# Twilio API
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=whatsapp:+13802059479
 
-# URL configuration
-BASE_URL=your_public_url
-
-# Other Configuration
-NODE_ENV=development
+# Google Cloud Vision API
+GOOGLE_APPLICATION_CREDENTIALS=google-cloud-credentials/google-credentials.json
 ```
 
-### Installation
+### Google Cloud Setup
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start the development server: `npm run dev`
+To set up Google Cloud Vision API credentials:
+
+```bash
+# Set your project
+gcloud config set project your-project-id
+
+# Enable Vision API
+gcloud services enable vision.googleapis.com
+
+# Create service account
+gcloud iam service-accounts create whatsapp-calendar-bot \
+  --display-name="WhatsApp Calendar Assistant"
+
+# Grant permissions
+gcloud projects add-iam-policy-binding your-project-id \
+  --member="serviceAccount:whatsapp-calendar-bot@your-project-id.iam.gserviceaccount.com" \
+  --role="roles/ml.developer"
+
+# Generate credentials
+gcloud iam service-accounts keys create google-cloud-credentials/google-credentials.json \
+  --iam-account=whatsapp-calendar-bot@your-project-id.iam.gserviceaccount.com
+```
 
 ## Usage
 

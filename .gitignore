@@ -12,7 +12,8 @@ yarn-error.log
 .env.production.local
 
 # Google Cloud credentials
-*.json
+google-cloud-credentials/*.json
+credentials/*.json
 
 # Log files
 logs/
