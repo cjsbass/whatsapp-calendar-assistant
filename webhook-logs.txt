@@ -1,0 +1,9 @@
+Vercel CLI 43.1.0
+WARN! Did you mean to deploy the subdirectory "logs"? Use `vc --cwd logs` instead.
+Fetching deployment "whatsapp-calendar-assistant-5g7bxzurj.vercel.app" in cornellbasson-gmailcoms-projects
+WARN! This command now displays runtime logs. To access your build logs, run `vercel inspect --logs whatsapp-calendar-assistant-5g7bxzurj.vercel.app`
+Displaying runtime logs for deployment whatsapp-calendar-assistant-5g7bxzurj.vercel.app (dpl_3NF3uTAhj8TSU3zPA9ei1CTmTxNf) starting from Jun Sa 09:06:08.93
+
+waiting for new logs...
+WARN! Exceeded query duration limit of 5 minutes
+

@@ -1,15 +1,16 @@
 {
   "version": 2,
+  "regions": ["iad1"],
   "builds": [
     {
-      "src": "src/index.js",
+      "src": "api/webhook.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/index.js"
+      "dest": "api/webhook.js"
     }
   ],
   "env": {

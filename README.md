@@ -1,185 +1,123 @@
-# WhatsApp Calendar Assistant
+# WhatsApp Calendar Assistant 🗓️ v6.0
 
-A WhatsApp bot that processes event invitation images and generates calendar links using Twilio, Google Cloud Vision API, and Vercel serverless deployment.
+A WhatsApp bot that extracts event details from wedding invitation images and generates Google Calendar links using **MessageBird** and **Google Cloud Vision API**.
 
-## 🚀 Current Status
+## 🆕 What's New in v6.0
+- **Switched from Twilio to MessageBird** for better reliability and delivery rates
+- Improved webhook processing with JSON payload handling
+- Enhanced error logging and debugging
+- Simplified deployment process
 
-✅ **WORKING** - WhatsApp messaging via Twilio  
-✅ **DEPLOYED** - Live on Vercel serverless platform  
-✅ **RESPONDING** - Text message handling functional  
-🔧 **IN PROGRESS** - Image processing being restored  
+## Features
 
-**Live Webhook**: `https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app/api/webhook`  
-**WhatsApp Number**: `+1 (380) 205-9479`
+- 📸 **Image Processing**: Upload wedding invitation images via WhatsApp
+- 🔍 **Text Extraction**: Uses Google Cloud Vision API to extract text from images
+- 📅 **Calendar Integration**: Automatically generates Google Calendar links
+- 🤖 **WhatsApp Bot**: Responds instantly with calendar links via MessageBird
+- ☁️ **Serverless**: Deployed on Vercel for automatic scaling
 
-## 📱 Features
+## Setup
 
-### Current Features (Working)
-- ✅ Receive WhatsApp messages via Twilio
-- ✅ Send automated responses 
-- ✅ Help and welcome messages
-- ✅ Error handling and logging
-
-### Upcoming Features (Being Restored)
-- 🔧 Process event invitation images with Google Cloud Vision
-- 🔧 Extract event details (title, date, time, location)
-- 🔧 Generate Google Calendar links
-- 🔧 Support for multiple calendar formats
-
-## 🛠 Technology Stack
-
-- **Backend**: Node.js + Express
-- **WhatsApp API**: Twilio WhatsApp Business API
-- **Image Processing**: Google Cloud Vision API (being restored)
-- **Deployment**: Vercel Serverless Functions
-- **Environment**: Production-ready cloud deployment
-
-## 📋 Environment Variables
-
-Required environment variables (all configured in Vercel):
-
+### 1. Clone Repository
 ```bash
-# Twilio WhatsApp API
-TWILIO_ACCOUNT_SID=your_twilio_account_sid
-TWILIO_AUTH_TOKEN=your_twilio_auth_token
-TWILIO_PHONE_NUMBER=whatsapp:+13802059479
-
-# Google Cloud Vision API
-GOOGLE_CLOUD_PROJECT_ID=whatsapp-calendar-service-001
-GOOGLE_CLOUD_CLIENT_EMAIL=your_service_account_email
-GOOGLE_CLOUD_PRIVATE_KEY=your_private_key_with_newlines
-
-# Deployment
-NODE_ENV=production
-```
-
-## 🚀 Deployment
-
-The application is deployed on Vercel with the following configuration:
-
-### Current Deployment
-- **URL**: https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app
-- **Status**: ✅ Active and responding
-- **Environment**: Production
-- **Region**: Washington, D.C., USA (East)
-
-### Twilio Configuration
-- **Webhook URL**: `https://whatsapp-calendar-assistant-2ttdph4ko.vercel.app/api/webhook`
-- **Method**: HTTP POST
-- **Phone Number**: +1 (380) 205-9479
-- **Service**: WhatsApp Business API
-
-## 💬 Usage
-
-### Text Messages
-Send any text message to `+1 (380) 205-9479`:
-- **"test"**, **"hello"**, **"hi"** → Get help message
-- **Any other text** → Echo response confirming receipt
-
-### Image Messages (Coming Soon)
-- Send event invitation screenshots
-- Receive extracted event details
-- Get Google Calendar links
-
-## 🔧 Development
-
-### Local Development
-```bash
-# Install dependencies
+git clone https://github.com/your-username/whatsapp-calendar-assistant.git
+cd whatsapp-calendar-assistant
 npm install
-
-# Set up environment variables
-cp .env.example .env
-
-# Run locally
-npm start
 ```
 
-### Deploy to Vercel
+### 2. Configure MessageBird
+Follow the detailed setup guide in `messagebird-setup.md`:
+1. Create MessageBird account
+2. Get API key 
+3. Set up WhatsApp Business API
+4. Configure webhook URL
+
+### 3. Set Environment Variables
 ```bash
-# Deploy to production
-vercel --prod
+# MessageBird
+printf 'live_YOUR_API_KEY\n' | vercel env add MESSAGEBIRD_API_KEY production
 
-# Update environment variables
-vercel env add VARIABLE_NAME production
+# Google Cloud Vision
+printf 'YOUR_PROJECT_ID\n' | vercel env add GOOGLE_CLOUD_PROJECT_ID production  
+printf 'YOUR_CLIENT_EMAIL\n' | vercel env add GOOGLE_CLOUD_CLIENT_EMAIL production
+printf 'YOUR_PRIVATE_KEY\n' | vercel env add GOOGLE_CLOUD_PRIVATE_KEY production
 ```
 
-## 📁 Project Structure
-
-```
-src/
-├── index.js                 # Main application (simplified for serverless)
-├── services/
-│   ├── vision.service.js    # Google Cloud Vision integration
-│   ├── calendar.service.js  # Calendar link generation
-│   └── twilio.service.js    # Twilio WhatsApp service
-└── routes/
-    ├── index.js             # Main routes
-    ├── whatsapp.routes.js   # WhatsApp webhook routes
-    └── twilio.routes.js     # Twilio webhook routes
-
-vercel.json                  # Vercel deployment configuration
-package.json                 # Dependencies and scripts
+### 4. Deploy
+```bash
+vercel deploy --prod --yes
 ```
 
-## 🐛 Troubleshooting
+### 5. Configure Webhook
+In MessageBird Dashboard:
+- Set webhook URL to: `https://your-deployment.vercel.app/api/webhook`
+- Enable `message.received` events
+
+## How It Works
+
+1. **Send Image**: User sends wedding invitation image to WhatsApp
+2. **Process**: Bot downloads image and extracts text using Google Cloud Vision
+3. **Parse**: Extracts event details (names, date, time, location)
+4. **Generate**: Creates Google Calendar link with event details
+5. **Reply**: Sends calendar link back via WhatsApp
+
+## Example
+
+Input: Wedding invitation image
+Output: 
+```
+🎉 Success!
+
+Event: Wedding: Alice & Anton
+Date: 29TH DECEMBER 2022  
+Time: 4.30PM
+Location: Fleur du Cap, Somerset West
+
+Calendar Link: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding...
+```
+
+## Technology Stack
+
+- **Backend**: Node.js, Vercel serverless functions
+- **WhatsApp**: MessageBird API
+- **Image Processing**: Google Cloud Vision API
+- **Calendar**: Google Calendar URL generation
+- **Deployment**: Vercel
+
+## Troubleshooting
+
+### Check Logs
+```bash
+vercel logs your-deployment-url.vercel.app
+```
 
 ### Common Issues
+1. **No response**: Check MessageBird webhook URL configuration
+2. **Image processing fails**: Verify Google Cloud Vision API credentials
+3. **Calendar link errors**: Check date/time parsing in logs
 
-1. **No response to WhatsApp messages**
-   - Check Twilio webhook URL is correct
-   - Verify environment variables in Vercel
-   - Check Vercel function logs
+## Migration from Twilio
 
-2. **Function deployment errors**
-   - Ensure no file system operations in serverless code
-   - Check Google Cloud credentials format
-   - Verify all dependencies are in package.json
+If migrating from the previous Twilio version:
+1. Remove old Twilio environment variables
+2. Set up MessageBird account and API key
+3. Update webhook URL in MessageBird instead of Twilio
+4. Deploy new version
 
-3. **Google Cloud Vision errors**
-   - Ensure private key newlines are properly escaped
-   - Verify service account permissions
-   - Check project ID matches
+## Why MessageBird?
 
-### Monitoring
-- **Logs**: https://vercel.com/cornellbasson-gmailcoms-projects/whatsapp-calendar-assistant/logs
-- **Status**: Check webhook endpoint health at `/api/webhook`
-- **Testing**: Send test messages to verify functionality
+- ✅ Better global delivery rates
+- ✅ Simpler API and webhook format  
+- ✅ More competitive pricing
+- ✅ Superior documentation
+- ✅ Streamlined setup process
 
-## 🔒 Security
+## Support
 
-- All sensitive credentials stored as Vercel environment variables
-- HTTPS-only webhook endpoints
-- No local file storage in serverless environment
-- Twilio webhook signature verification (can be added)
+- MessageBird Docs: https://developers.messagebird.com/
+- Google Cloud Vision: https://cloud.google.com/vision/docs
+- Vercel Deployment: https://vercel.com/docs
 
-## 📈 Next Steps
+## License
 
-1. **Restore Image Processing**
-   - Fix Google Cloud Vision API serverless compatibility
-   - Add back event detail extraction
-   - Restore calendar link generation
-
-2. **Enhanced Features**
-   - Support for multiple languages
-   - Advanced date/time parsing
-   - Multiple calendar format support (Outlook, Apple Calendar)
-   - Event reminder setup
-
-3. **Production Improvements**
-   - Add webhook signature verification
-   - Implement rate limiting
-   - Add comprehensive error tracking
-   - Performance monitoring
-
-## 📞 Support
-
-- **Developer**: Available for debugging and enhancements
-- **Logs**: Monitor via Vercel dashboard
-- **Issues**: Test webhook endpoint and check environment variables
-
----
-
-**Status**: ✅ Core messaging functional | 🔧 Image processing being restored  
-**Last Updated**: June 13, 2025  
-**Version**: 2.0 (Serverless) 
+MIT License 

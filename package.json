@@ -1,43 +1,14 @@
 {
   "name": "whatsapp-calendar-assistant",
   "version": "1.0.0",
-  "description": "A WhatsApp bot that extracts event details from screenshots and creates calendar events",
-  "main": "src/index.js",
+  "description": "WhatsApp Calendar Assistant",
+  "main": "api/webhook.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "test": "node test-message.js",
-    "monitor-token": "node token-monitor.js"
+    "start": "node api/webhook.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "axios": "^1.4.0",
-    "dotenv": "^16.3.1",
-    "form-data": "^4.0.0",
-    "@google-cloud/vision": "^4.0.2",
-    "twilio": "^4.14.0",
-    "node-schedule": "^2.1.1",
-    "uuid": "^9.0.0",
-    "ics": "^3.5.0",
-    "moment": "^2.29.4",
-    "ical-generator": "^4.1.0",
-    "crypto": "^1.0.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "keywords": [
-    "whatsapp",
-    "calendar",
-    "assistant",
-    "bot",
-    "image-processing",
-    "ocr"
-  ],
-  "author": "",
-  "license": "MIT",
-  "engines": {
-    "node": ">=16.0.0"
+    "axios": "^1.6.0",
+    "@google-cloud/vision": "^4.0.0",
+    "twilio": "^4.14.0"
   }
 } 
