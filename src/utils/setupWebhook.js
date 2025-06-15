@@ -181,7 +181,7 @@ async function sendTestMessage(phoneNumberId, apiToken) {
             type: 'text',
             text: {
               preview_url: false,
-              body: 'Hello! This is a test message from your WhatsApp Calendar Assistant. Send me a screenshot of an event invitation to create a calendar event!'
+              body: 'Hello! This is a test message from Kairos, your AI-powered calendar assistant. Send me a screenshot of an event invitation to create a calendar event!'
             }
           }
         });
@@ -206,7 +206,7 @@ async function sendTestMessage(phoneNumberId, apiToken) {
 // Main function
 async function setup() {
   console.log('==========================================');
-  console.log('WhatsApp Calendar Assistant - Setup Wizard');
+  console.log('Kairos AI Calendar Assistant - Setup Wizard');
   console.log('==========================================\n');
   
   // Check if .env has the required values

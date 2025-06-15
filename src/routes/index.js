@@ -33,7 +33,7 @@ router.get('/r/:shortId', (req, res) => {
 
 // Home route
 router.get('/', (req, res) => {
-  res.send('WhatsApp Calendar Assistant is running! (Now using Twilio for WhatsApp integration)');
+  res.send('Kairos AI Calendar Assistant is running! (Now using Twilio for WhatsApp integration)');
 });
 
 module.exports = router; 

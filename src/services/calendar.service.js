@@ -239,7 +239,7 @@ const createIcalFile = (eventDetails, eventDate) => {
       categories: ['Event'],
       status: 'CONFIRMED',
       busyStatus: 'BUSY',
-      organizer: { name: 'WhatsApp Calendar Assistant', email: 'calendar@example.com' },
+      organizer: { name: 'Kairos AI Assistant', email: 'calendar@kairos.ai' },
       alarms: [
         {
           action: 'display',
@@ -354,7 +354,7 @@ function createCalendarEvent(eventDetails) {
   
   try {
     // Create new calendar
-    const calendar = ical({ name: 'WhatsApp Calendar Assistant' });
+    const calendar = ical({ name: 'Kairos AI Calendar Assistant' });
     
     // Parse dates
     let startDate = new Date(eventDetails.date);
@@ -387,8 +387,8 @@ function createCalendarEvent(eventDetails) {
       status: 'CONFIRMED',
       categories: ['EVENT'],
       organizer: {
-        name: 'WhatsApp Calendar Assistant',
-        email: 'assistant@example.com'
+        name: 'Kairos AI Assistant',
+        email: 'assistant@kairos.ai'
       }
     });
     

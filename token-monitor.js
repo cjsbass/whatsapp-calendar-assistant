@@ -60,7 +60,7 @@ async function sendTokenExpirationNotification() {
       from: 'your-email@gmail.com',
       to: 'your-notification-email@example.com',
       subject: '⚠️ WhatsApp API Token Expired',
-      text: `Your WhatsApp API token for the Calendar Assistant has expired. 
+      text: `Your WhatsApp API token for Kairos has expired. 
       Please generate a new token at https://developers.facebook.com/apps/`
     };
     

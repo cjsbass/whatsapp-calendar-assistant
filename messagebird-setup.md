@@ -23,7 +23,7 @@
 
 ## Step 4: Configure Webhook
 1. In MessageBird Dashboard → Channels → WhatsApp → Settings
-2. Set Webhook URL to: `https://whatsapp-calendar-assistant-XXXXXX.vercel.app/api/webhook`
+2. Set Webhook URL to: `https://kairos-XXXXXX.vercel.app/api/webhook`
 3. Enable events: `message.received`
 4. Save settings
 

@@ -1,23 +1,12 @@
-# 🚀 WhatsApp Calendar Assistant - Deployment Guide
+# 🚀 Kairos - Deployment Guide
 
-Deploy your own instance of the AI-powered WhatsApp Calendar Assistant that converts event invitations into professional calendar links.
+Deploy your own instance of the AI-powered Kairos calendar assistant that converts event invitations into professional calendar links.
 
-## ⚡ Quick Deploy Options
+## 🎯 One-Click Deploy Options
 
-### 1. 🟢 Railway (Recommended - Easiest)
+### Vercel (Recommended) ⚡
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/whatsapp-calendar-assistant)
-
-**Steps:**
-1. Click the Railway button above
-2. Connect your GitHub account
-3. Fork this repository
-4. Set environment variables (see below)
-5. Deploy!
-
-### 2. 🔷 Vercel (Great Performance)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cjsbass/whatsapp-calendar-assistant)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cjsbass/kairos)
 
 **Steps:**
 1. Click the Vercel button above
@@ -137,4 +126,4 @@ If you need help with deployment:
 
 ---
 
-**Ready to deploy?** Choose your preferred platform above and get your WhatsApp Calendar Assistant live in minutes! 
+**Ready to deploy?** Choose your preferred platform above and get your Kairos AI calendar assistant live in minutes! 

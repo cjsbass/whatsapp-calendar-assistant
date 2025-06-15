@@ -1,7 +1,7 @@
-// WhatsApp Calendar Assistant - v6.0 - MessageBird Integration
+// Kairos - v6.0 - MessageBird Integration
 const axios = require('axios');
 
-console.log('🆕 WHATSAPP CALENDAR ASSISTANT v6.0 - MessageBird Integration');
+console.log('🆕 KAIROS v6.0 - MessageBird Integration');
 
 // Initialize Google Cloud Vision client
 let visionClient;
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
 
   // Handle GET requests for health checks
   if (req.method === 'GET') {
-    return res.status(200).send('✅ WhatsApp Calendar Assistant v6.0 (MessageBird) is running!');
+    return res.status(200).send('✅ Kairos v6.0 (MessageBird) is running!');
   }
 
   // Handle POST requests (MessageBird webhook)
@@ -120,7 +120,7 @@ async function handleMessageBirdImageMessage(from, conversationId, message) {
 
 // Handle MessageBird Text Messages
 async function handleMessageBirdTextMessage(from, conversationId, text) {
-  const welcomeMessage = `Hello! I'm the WhatsApp Calendar Assistant. 🗓️\n\nSend me a clear picture of a wedding or event invitation, and I'll create a calendar link for you.`;
+  const welcomeMessage = `Hello! I'm Kairos, your AI-powered calendar assistant. 🗓️\n\nSend me a clear picture of a wedding or event invitation, and I'll create a calendar link for you.`;
   await sendMessageBirdMessage(from, conversationId, welcomeMessage);
 }
 
@@ -232,7 +232,7 @@ function createGoogleCalendarUrl(details) {
     url.searchParams.append('text', details.title);
     url.searchParams.append('dates', `${formatDate(startDateTime)}/${formatDate(endDateTime)}`);
     url.searchParams.append('location', details.location);
-    url.searchParams.append('details', 'Event details extracted by WhatsApp Calendar Assistant.');
+    url.searchParams.append('details', 'Event details extracted by Kairos AI calendar assistant.');
   
     return url.toString();
   } catch(e) {

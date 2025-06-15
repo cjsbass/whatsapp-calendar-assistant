@@ -1,6 +1,6 @@
-# WhatsApp Calendar Assistant 🗓️ v6.0
+# Kairos 🗓️ v6.0
 
-A WhatsApp bot that extracts event details from wedding invitation images and generates Google Calendar links using **MessageBird** and **Google Cloud Vision API**.
+A powerful AI-powered calendar assistant that extracts event details from wedding invitation images and generates Google Calendar links using **MessageBird** and **Google Cloud Vision API**.
 
 ## 🆕 What's New in v6.0
 - **Switched from Twilio to MessageBird** for better reliability and delivery rates
@@ -20,8 +20,8 @@ A WhatsApp bot that extracts event details from wedding invitation images and ge
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/your-username/whatsapp-calendar-assistant.git
-cd whatsapp-calendar-assistant
+git clone https://github.com/your-username/kairos.git
+cd kairos
 npm install
 ```
 
@@ -56,7 +56,7 @@ In MessageBird Dashboard:
 ## How It Works
 
 1. **Send Image**: User sends wedding invitation image to WhatsApp
-2. **Process**: Bot downloads image and extracts text using Google Cloud Vision
+2. **Process**: Kairos downloads image and extracts text using Google Cloud Vision
 3. **Parse**: Extracts event details (names, date, time, location)
 4. **Generate**: Creates Google Calendar link with event details
 5. **Reply**: Sends calendar link back via WhatsApp

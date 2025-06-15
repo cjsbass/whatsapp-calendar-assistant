@@ -1,7 +1,7 @@
 # WhatsApp Webhook Setup Guide
 
 ## Problem
-The WhatsApp Calendar Assistant is not receiving image messages because the webhook is not properly configured or subscribed to the necessary events in the Meta Developer Portal.
+The Kairos AI calendar assistant is not receiving image messages because the webhook is not properly configured or subscribed to the necessary events in the Meta Developer Portal.
 
 ## Solution
 

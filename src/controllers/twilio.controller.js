@@ -137,7 +137,7 @@ exports.receiveMessage = async (req, res) => {
       console.log('Processing text message:', messageBody);
       
       const helpMessage = 
-        '👋 Hello! I\'m your WhatsApp Calendar Assistant.\n\n' +
+        '👋 Hello! I\'m Kairos, your AI-powered calendar assistant.\n\n' +
         'Send me a screenshot of an event invitation, and I\'ll extract the details and create a calendar event for you.\n\n' +
         'I\'ll create a link that you can tap to add the event directly to your calendar!';
       
